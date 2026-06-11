@@ -24,8 +24,9 @@ export async function POST(request: Request) {
       performed_by: userId || 'Anonymous'
     }]);
 
+    // NOTE: changed path to /api/requests/jobs/process (keeps route file where it is)
     await qstashClient.publishJSON({
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/api/jobs/process`,
+      url: `${process.env.NEXT_PUBLIC_APP_URL}/api/requests/jobs/process`,
       body: { requestId: privacyRequest.id, type: type },
       headers: {
         "ngrok-skip-browser-warning": "true"
