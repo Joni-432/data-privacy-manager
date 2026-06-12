@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     const { data: privacyRequest, error: dbError } = await supabaseAdmin
       .from('privacy_requests')
-      .insert([{ request_type: type, user_id: userId || null, status: 'SUBMITTED' }])
+      .insert([{ request_type: type, user_id: null, status: 'SUBMITTED' }])
       .select()
       .single();
 
@@ -35,9 +35,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json(privacyRequest);
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error('Error creating request:', message);
-    return NextResponse.json({ error: message }, { status: 500 });
+  console.error('Error creating request (full):', err);
+  const message = err instanceof Error ? err.message : JSON.stringify(err);
+  return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
